@@ -23,5 +23,6 @@ python3 main.py
 ```
 
 ## Reference
-- https://github.com/luk1684tw/ML_HW4/blob/master/hw4.py
-- https://github.com/leeang6969/Machine-Learning-2019-Spring-NCTU/tree/master/Lab4
+- http://onlinestatbook.com/2/estimation/mean.html
+- https://peterroelants.github.io/posts/gaussian-process-kernels/
+- https://matplotlib.org/3.1.1/api/_as_gen/matplotlib.pyplot.fill_between.html
