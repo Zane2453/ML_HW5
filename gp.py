@@ -49,8 +49,10 @@ def gp_regressiong(test, data_points, C, beta, amplitude, lengthscale, scale_mix
 def plot_result(test, result, data_points, state):
     if state == 'origin':
         plt.subplot(2, 1, 1)
+        plt.title('Origin')
     elif state == 'optimal':
         plt.subplot(2, 1, 2)
+        plt.title('Optimal')
     plt.xlim((-60, 60))
     plt.fill_between(x=test, y1=result[:, 0] + (1.96 * np.sqrt(result[:, 1])), y2=result[:, 0] - (1.96 * np.sqrt(result[:, 1])), color="gray")
     plt.scatter(data_points[:, 0], data_points[:, 1], s=15, c='blue')
