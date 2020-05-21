@@ -3,11 +3,6 @@ import numpy as np
 from libsvm.svmutil import *
 from libsvm.svm import *
 
-X_train = extract_data('./X_train.csv')
-X_test = extract_data('./X_test.csv')
-Y_train = extract_data('./Y_train.csv').reshape(5000)
-Y_test = extract_data('./Y_test.csv').reshape(2500)
-
 def extract_data(file):
     csvfile = open(file)
     data = csv.reader(csvfile)
@@ -17,6 +12,11 @@ def extract_data(file):
 
     data_points = np.array(data_points).astype(float)
     return data_points
+
+X_train = extract_data('./X_train.csv')
+X_test = extract_data('./X_test.csv')
+Y_train = extract_data('./Y_train.csv').reshape(5000)
+Y_test = extract_data('./Y_test.csv').reshape(2500)
 
 # implement Grid Search
 def grid_search(method):
