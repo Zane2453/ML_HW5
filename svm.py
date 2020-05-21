@@ -13,17 +13,16 @@ def extract_data(file):
     data_points = np.array(data_points).astype(float)
     return data_points
 
+# implement Grid Search
 def grid_search(method):
-    '''gamma = np.logspace(-9, 3, 13)
-    Cost = np.logspace(-2, 10, 13)'''
-    gamma = [0.25, 0.5, 1, 2, 4]
-    Cost = [0.25, 0.5, 1, 2, 4]
+    gamma = np.logspace(-9, 3, 13)
+    Cost = np.logspace(-2, 10, 13)
     parameters = []
     for g in gamma:
         for c in Cost:
             if method == 'linear':
                 model = svm_train(Y_train, X_train, f'-t 0 -q -g {g} -c {c} -v 5')
-            elif method == 'poly':
+            elif method == 'polynomial':
                 model = svm_train(Y_train, X_train, f'-t 1 -q -g {g} -c {c} -v 5')
             elif method == 'rbf':
                 model = svm_train(Y_train, X_train, f'-t 2 -q -g {g} -c {c} -v 5')
@@ -52,6 +51,8 @@ if __name__ == "__main__":
     # RBF kernel functions
     model_rbf = svm_train(Y_train, X_train, '-t 2 -q')
     predict_rbf = svm_predict(Y_test, X_test, model_rbf)'''
+
+    # doing grid search
     grid_linear = grid_search('linear')
-    #grid_poly = grid_search('poly')
-    #grid_rbf = grid_search('rbf')
+    grid_polynomial = grid_search('polynomial')
+    grid_rbf = grid_search('rbf')
