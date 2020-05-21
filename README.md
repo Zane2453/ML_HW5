@@ -28,3 +28,4 @@ python3 main.py
 - https://matplotlib.org/3.1.1/api/_as_gen/matplotlib.pyplot.fill_between.html
 - https://blog.gtwang.org/programming/python-csv-file-reading-and-writing-tutorial/
 - https://www.cnblogs.com/Finley/p/5329417.html
+- https://scikit-learn.org/stable/auto_examples/svm/plot_rbf_parameters.html

@@ -2,6 +2,7 @@ import csv
 import numpy as np
 from libsvm.svmutil import *
 from libsvm.svm import *
+from scipy.spatial.distance import cdist, pdist, squareform
 
 def extract_data(file):
     csvfile = open(file)
@@ -37,26 +38,56 @@ def grid_search(method):
     best_parameter = max(parameters)
     print (f'best score {best_parameter[0]}% for {method} with gamma {best_parameter[1]} and cost {best_parameter[2]}')
 
-    model = svm_train(Y_train, X_train, f'-t 2 -q -g {best_parameter[1]} -c {best_parameter[2]} -v 5')
+    if method == 'linear':
+        model = svm_train(Y_train, X_train, f'-t 0 -q -g {best_parameter[1]} -c {best_parameter[2]}')
+    elif method == 'polynomial':
+        model = svm_train(Y_train, X_train, f'-t 1 -q -g {best_parameter[1]} -c {best_parameter[2]}')
+    elif method == 'rbf':
+        model = svm_train(Y_train, X_train, f'-t 2 -q -g {best_parameter[1]} -c {best_parameter[2]}')
     predict = svm_predict(Y_test, X_test, model)
 
     return best_parameter
+
+# Using linear kernel & RBF kernel together
+def linear_rbf_kernel(X, Train, gamma):
+    Size = len(X)
+    linear_kernel = np.dot(X, np.transpose(Train))
+    rbf_kernel = np.exp(gamma * cdist(X, Train, 'sqeuclidean'))
+    kernel = linear_kernel + rbf_kernel
+    kernel = np.hstack((np.arange(1, Size+1).reshape(-1,1), kernel))
+
+    return kernel
 
 if __name__ == "__main__":
     # refer to https://www.cnblogs.com/Finley/p/5329417.html
     # linear kernel functions
     model_linear = svm_train(Y_train, X_train, '-t 0 -q')
     predict_linear = svm_predict(Y_test, X_test, model_linear)
+    # Accuracy = 95.08% (2377/2500) (classification)
 
     # polynomial kernel functions
     model_polynomial = svm_train(Y_train, X_train, '-t 1 -q')
     predict_polynomial = svm_predict(Y_test, X_test, model_polynomial)
+    # Accuracy = 34.68% (867/2500) (classification)
 
     # RBF kernel functions
     model_rbf = svm_train(Y_train, X_train, '-t 2 -q')
     predict_rbf = svm_predict(Y_test, X_test, model_rbf)
+    # Accuracy = 95.32% (2383/2500) (classification)
 
     # doing grid search
     grid_linear = grid_search('linear')
+    # gamma=0.001, cost=0.01
+    # Accuracy = 95.96 % (2399 / 2500)(classification)
+
     grid_polynomial = grid_search('polynomial')
     grid_rbf = grid_search('rbf')
+
+    # doing the User Define Kernel
+    gamma = -1/4
+    X_train_kernel = linear_rbf_kernel(X_train, X_train, gamma)
+    linear_rbf_model = svm_train(Y_train, X_train_kernel, '-t 4 -q')
+
+    X_test_kernel = linear_rbf_kernel(X_test, X_train, gamma)
+    linear_rbf_predict = svm_predict(Y_test, X_test_kernel, linear_rbf_model)
+    # Accuracy = 95.64% (2391/2500) (classification)
