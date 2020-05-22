@@ -63,22 +63,17 @@ if __name__ == "__main__":
     # linear kernel functions
     model_linear = svm_train(Y_train, X_train, '-t 0 -q')
     predict_linear = svm_predict(Y_test, X_test, model_linear)
-    # Accuracy = 95.08% (2377/2500) (classification)
 
     # polynomial kernel functions
     model_polynomial = svm_train(Y_train, X_train, '-t 1 -q')
     predict_polynomial = svm_predict(Y_test, X_test, model_polynomial)
-    # Accuracy = 34.68% (867/2500) (classification)
 
     # RBF kernel functions
     model_rbf = svm_train(Y_train, X_train, '-t 2 -q')
     predict_rbf = svm_predict(Y_test, X_test, model_rbf)
-    # Accuracy = 95.32% (2383/2500) (classification)
 
     # doing grid search
     grid_linear = grid_search('linear')
-    # gamma=0.001, cost=0.01
-    # Accuracy = 95.96 % (2399 / 2500)(classification)
 
     grid_polynomial = grid_search('polynomial')
     grid_rbf = grid_search('rbf')
@@ -90,4 +85,3 @@ if __name__ == "__main__":
 
     X_test_kernel = linear_rbf_kernel(X_test, X_train, gamma)
     linear_rbf_predict = svm_predict(Y_test, X_test_kernel, linear_rbf_model)
-    # Accuracy = 95.64% (2391/2500) (classification)
